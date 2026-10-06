@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Student System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+            background:
+                linear-gradient(rgba(40, 0, 80, 0.65),
+                rgba(10, 0, 40, 0.85)),
+                url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* NAVIGATION */
+        nav {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: rgba(20, 0, 50, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .about-nav {
+            background: #8b2cff;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .about-nav:hover {
+            transform: scale(1.03);
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 90px 20px 50px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.4);
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.6;
+            color: #e5d9f5;
+            font-size: 16px;
+        }
+
+        /* BUTTONS */
+        .buttons {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .main-btn, .login-btn {
+            width: 430px;
+            max-width: 90%;
+            padding: 15px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .main-btn {
+            border: none;
+            background: linear-gradient(90deg, #7b20ff, #b44cff);
+            color: white;
+            box-shadow: 0 5px 20px rgba(130, 40, 255, 0.5);
+        }
+
+        .login-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #b44cff;
+            color: white;
+        }
+
+        .main-btn:hover, .login-btn:hover {
+            transform: scale(1.03);
+        }
+
+        /* ABOUT CARD */
+        .about {
+            width: 650px;
+            max-width: 90%;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(70, 10, 130, 0.75);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+        }
+
+        .about h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .about p {
+            line-height: 1.7;
+            color: #eee;
+            font-size: 14px;
+        }
+
+        /* FEATURES */
+        .features {
+            text-align: center;
+            padding: 40px 20px 70px;
+        }
+
+        .features h2 {
+            margin-bottom: 30px;
+        }
+
+        .feature-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            width: 210px;
+            padding: 25px 15px;
+            background: rgba(60, 10, 110, 0.7);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .feature h3 {
+            margin: 10px 0;
+            font-size: 17px;
+        }
+
+        .feature p {
+            font-size: 13px;
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        .icon {
+            font-size: 35px;
+        }
+
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(35, 10, 65, 0.95);
+            border: 1px solid rgba(180, 76, 255, 0.5);
+            border-radius: 20px;
+            width: 400px;
+            max-width: 90%;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(139, 44, 255, 0.4);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: #d9a7ff;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(90deg, #7b20ff, #b44cff);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .divider {
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .google-btn {
+            background: #ffffff;
+            color: #333;
+        }
+
+        .facebook-btn {
+            background: #1877f2;
+            color: white;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(10, 0, 30, 0.8);
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .hero { padding-top: 60px; }
+            .hero h1 { font-size: 30px; }
+            .hero p { font-size: 14px; }
+            .about { padding: 25px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">SMART STUDENT</div>
+        <div class="nav-links">
+            <button class="about-nav" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+                ABOUT
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Smart Student Information & Academic Monitoring System</h1>
+        <p>
+            A modern student management system that helps students and teachers manage information,
+            monitor academic performance, and keep track of school records in one convenient platform.
+        </p>
+
+        <!-- BUTTONS -->
+        <div class="buttons">
+            <button class="main-btn" onclick="openModal('signupModal')">SIGN UP</button>
+            <button class="login-btn" onclick="openModal('loginModal')">LOG IN</button>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <h2>WHAT IS SMART STUDENT?</h2>
+        <p>
+            The Smart Student Information and Academic Monitoring System is a web-based platform designed to organize
+            student information and monitor academic performance. It helps make student records, grades, and other 
+            academic information easier to manage and access.
+        </p>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <h2>MAIN FEATURES</h2>
+        <div class="feature-container">
+            <div class="feature">
+                <div class="icon">👨‍🎓</div>
+                <h3>Student Information</h3>
+                <p>Manage important student records in one place.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">📊</div>
+                <h3>Grade Monitoring</h3>
+                <p>Monitor grades and academic performance.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">⚠️</div>
+                <h3>AI-Driven Predictive Analytics</h3>
+                <p>Predict student final grades and or risk level</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🤝</div>
+                <h3>Resource matching</h3>
+                <p>offering solutions and recommendations module</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOG IN MODAL -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Log In</h2>
+            <form onsubmit="handleAuth(event, 'Login')">
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <a href="#" class="forgot-link" onclick="handleForgot(event)">Forgot Password?</a>
+                <button type="submit" class="submit-btn">Log In</button>
+            </form>
+            
+            <div class="divider">OR CONTINUE WITH</div>
+            
+            <div class="social-buttons">
+                <button class="social-btn google-btn" onclick="handleSocial('Google')">
+                    Google
+                </button>
+                <button class="social-btn facebook-btn" onclick="handleSocial('Facebook')">
+                    Facebook
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGN UP MODAL -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Sign Up</h2>
+            <form onsubmit="handleAuth(event, 'Sign Up')">
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <a href="#" class="forgot-link" onclick="handleForgot(event)">Forgot Password?</a>
+                <button type="submit" class="submit-btn">Create Account</button>
+            </form>
+            
+            <div class="divider">OR SIGN UP WITH</div>
+            
+            <div class="social-buttons">
+                <button class="social-btn google-btn" onclick="handleSocial('Google')">
+                    Google
+                </button>
+                <button class="social-btn facebook-btn" onclick="handleSocial('Facebook')">
+                    Facebook
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 Smart Student Information and Academic Monitoring System
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = "flex";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        // Close modal when clicking outside the content box
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        };
+
+        function handleAuth(event, type) {
+            event.preventDefault();
+            alert(type + " successful!");
+            closeModal(type === 'Login' ? 'loginModal' : 'signupModal');
+        }
+
+        function handleSocial(provider) {
+            alert("Redirecting to " + provider + " authentication...");
+        }
+
+        function handleForgot(event) {
+            event.preventDefault();
+            const email = prompt("Please enter your email address to reset your password:");
+            if (email) {
+                alert("Password reset link sent to: " + email);
+            }
+        }
+    </script>
+
+</body>
+</html>
